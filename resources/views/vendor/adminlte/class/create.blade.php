@@ -28,13 +28,61 @@
               </div>
               <br>
                
-
-                </div>
+ <div class="col-md-6">
+                     <script type="text/javascript">
+                     $(function(){
+                       $('.add').click(function(){
+//                           alert('hello');
+                           var subjects=$('.subid').html();
+                         var num=($('.tablebody tr').length-0)+1;
+                           var adrow='<tr><th class="num">'+num+'</th>'+
+                               
+                               '<td><input type="text" name="subject[]" class="subject form-control"/></td></tr>';
+                           $('.tablebody').append(adrow);
+                      
+                       });
+                     });
+                     </script>
+      
+         
+              <!-- /input-group -->
            
+              <table class="table">
+                <thead>
+                
+                        <th>SN</th>
+                        <th>Subject Name</th>
+                        
+                      
+                </thead>
+                <tbody class="tablebody">
+                  <tr>
+                    <th class="num">1</th>
+                     
+                      <td>
+                      <input type="text" name="subject[]" class="subject form-control"/>
+                      </td>  
+                      
+                    </tr>
+                    
+                </tbody>
+                <tfoot>
+                    <tr>
+        <td colspan="3"><input type="button" class="btn btn-primary add" value="Add Subject +" /></td>
+            
+        </tr>
+                    
+                </tfoot>  
+              </table>
+               
+             
+                     </div>
+                </div>
+                    </div>
 
          
               <!-- /input-group -->
-            </div>
+            
                 <div class="box-footer">
                          <input type="hidden" name="_token" value="{{csrf_token()}}"/>
                 <button type="submit" class="btn btn-default">Cancel</button>
@@ -50,3 +98,4 @@
 	</div>
 </div>
 @endsection
+<script src="js/jquery-2.2.4.min.js"></script>

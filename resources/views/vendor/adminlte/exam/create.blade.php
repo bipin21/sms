@@ -27,12 +27,13 @@
                      $(function(){
                        $('.add').click(function(){
 //                           alert('hello');
+                           var subdetail=$('.subid').html();
                          var num=($('.tablebody tr').length-0)+1;
                            var adrow='<tr><th class="num">'+num+'</th>'+
-                               '<td><select name="subname[]" class="form form-control subid" style=""><option value="">Select</option> <option value="">ABC</option></select></td>'+
-                               '<td><input type="text" name="fullmark" class="fullmark form-control"/></td>'+
-                               '<td><input type="text" name="passmark" class="passmark form-control"/></td>'+
-                               '<td><input type="date" name="examdate" class="date form-control"/></td></tr>';
+                               '<td><select name="subname[]" class="form form-control subid" style="">'+subdetail+'</select></td>'+
+                               '<td><input type="text" name="fullmark[]" class="fullmark form-control"/></td>'+
+                               '<td><input type="text" name="passmark[]" class="passmark form-control"/></td>'+
+                               '<td><input type="date" name="examdate[]" class="date form-control"/></td></tr>';
                            $('.tablebody').append(adrow);
                       
                        });
@@ -74,12 +75,7 @@
          
               <!-- /input-group -->
             </div>
-                <div class="box-footer">
-                         <input type="hidden" name="_token" value="{{csrf_token()}}"/>
-                <button type="submit" class="btn btn-default">Cancel</button>
-                <button type="submit" class="btn btn-info pull-right" value="Submit" name="addcontent" >Submit</button>
-              </div>
-              </form>
+               
               <table class="table">
                 <thead>
                 
@@ -96,18 +92,19 @@
                     <th class="num">1</th>
                       <td>
                       <select name="subname[]" class="form form-control subid" style="">
-                          <option value="">Select</option>
-                          <option value="">ABC</option>
+                          @foreach($subdata as $sbdata)
+                 <option value="{{ $sbdata->id }}" >{{ $sbdata->subname }}</option>
+                 @endforeach
                           </select> 
                       </td>
                       <td>
-                      <input type="text" name="fullmark" class="fullmark form-control"/>
+                      <input type="text" name="fullmark[]" class="fullmark form-control"/>
                       </td>  
                       <td>
-                      <input type="text" name="passmark" class="passmark form-control"/>
+                      <input type="text" name="passmark[]" class="passmark form-control"/>
                       </td>  
                       <td>
-                      <input type="date" name="examdate" class="date form-control"/>
+                      <input type="date" name="examdate[]" class="date form-control"/>
                       </td>
                     </tr>
                     
@@ -120,6 +117,12 @@
                     
                 </tfoot>  
               </table>
+                     <div class="box-footer">
+                         <input type="hidden" name="_token" value="{{csrf_token()}}"/>
+                <button type="submit" class="btn btn-default">Cancel</button>
+                <button type="submit" class="btn btn-info pull-right" value="Submit" name="addcontent" >Submit</button>
+              </div>
+              </form>
             <!-- /.box-body -->
           </div>
           <!-- /.box -->

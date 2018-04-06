@@ -96,12 +96,12 @@ class ResultviewController extends Controller
                ->join('students','students.id','=','results.studid')
                ->join('exams','exams.id','=','results.examid')
                ->join('subjects','subjects.id','=','studentresultdetails.subid')
-               ->select('studentresultdetails.*','results.*','students.*','exams.*','subjects.*')
+               ->select('exams.*')
                   ->where('results.studid','=',$viewid)
                  
-               ->get();
+               ->get()->unique();
              
-           return view('vendor.adminlte.result.resultview',array('viewid'=>$viewid,'data'=>$data));
+           return view('vendor.adminlte.result.resultview',array('viewid'=>$viewid,'data'=>$data,'data1'=>$data1));
           }
         else{
             return redirect()->back();

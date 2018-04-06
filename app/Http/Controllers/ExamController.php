@@ -38,8 +38,17 @@ class ExamController extends Controller
      public function add()
     {
           if(Auth::user()){
-           $classdata=DB::select('select * from classcs');
-           return view('vendor.adminlte.exam.create',array('classdata'=>$classdata));
+          
+          $classdata=DB::table('classcs')
+               ->select('classcs.*')
+              ->distinct()
+               ->get(); 
+              $subdata=DB::table('classcs')
+               ->join('subjects','subjects.classid','=','classcs.id')
+               ->select('classcs.*','subjects.*')
+              ->distinct()
+               ->get();
+           return view('vendor.adminlte.exam.create',array('classdata'=>$classdata,'subdata'=>$subdata));
              }
         else{
             return redirect()->back();
@@ -49,13 +58,28 @@ class ExamController extends Controller
      public function create(Request $request)
     {
           if(Auth::user()){
-           $std=new Exam();
-              $std->ename=Input::get('ename');
-              $std->epurpose=Input::get('epurpose');
-              $std->classid=Input::get('classid');
-              $std->edate=Input::get('edate');
+          $post=$request->all();
+              $examdata=array(
+                'ename'=>$post['ename'],
+                'epurpose'=>$post['epurpose'],
+                'classid'=>$post['classid'],
+                'edate'=>$post['edate'],
+              );
+              $exid=DB::table('exams')->insertGetId($examdata);
+              if($exid>0){
+                  for($i=0;$i<count($post['subname']);$i++){
+                      $examdetaildata=array(
+                      'exid'=>$exid,
+                      'classid'=>$post['classid'],
+                      'subid'=>$post['subname'][$i],
+                      'full_marks'=>$post['fullmark'][$i],
+                      'pass_marks'=>$post['passmark'][$i],
+                      'examdate'=>$post['examdate'][$i]
+                      ); 
+                      DB::table('exam_details')->insert($examdetaildata);
+                  }
+              }
               
-              $std->save();
           return redirect()->back();
              }
         else{

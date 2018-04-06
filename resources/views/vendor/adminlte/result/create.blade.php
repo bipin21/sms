@@ -94,10 +94,11 @@
                   <tr>
                     <th class="num">1</th>
                       <td>
-                      <select name="subname[]" class="form form-control subid" style="">
+                      <select name="subname[]" class="form form-control subid" style="" required>
                           <option value="">Select</option>
-                          <option value="1">ABC</option>
-                          <option value="2">DEF</option>
+                          @foreach($tdata as $subdata)
+                 <option value="{{ $subdata->id }}" >{{ $subdata->subname }}</option>
+                 @endforeach
                           </select> 
                       </td>
                       <td>
@@ -122,6 +123,8 @@
                 <button type="submit" class="btn btn-info pull-right" value="Submit" name="addcontent" >Submit</button>
               </div>
               </form>
+              
+              
             <!-- /.box-body -->
           </div>
           <!-- /.box -->

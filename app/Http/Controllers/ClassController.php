@@ -43,11 +43,22 @@ class ClassController extends Controller
      public function create(Request $request)
     {
           if(Auth::user()){
-           $std=new Classc();
-              $std->cname=Input::get('cname');
-             
-              $std->save();
+           $post=$request->all();
+              $classdata=array(
+              'cname'=>$post['cname']
+              );
+              $classid=DB::table('classcs')->insertGetId($classdata);
+              if($classid>0){
+                  for($i=0;$i < count($post['subject']); $i++){
+              $classsubject=array(
+                  'classid'=>$classid,
+                  'subname'=>$post['subject'][$i]
+              );
+              
+              DB::table('subjects')->insert($classsubject);
+                  }
           return redirect()->back();
+              }
              }
         else{
             return redirect()->back();

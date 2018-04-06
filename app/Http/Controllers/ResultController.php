@@ -42,7 +42,15 @@ class ResultController extends Controller
            $classdata=DB::select('select * from classcs');
            $studentdata=DB::select('select * from students');
            $examdata=DB::select('select * from exams');
-           return view('vendor.adminlte.result.create',array('classdata'=>$classdata,'examdata'=>$examdata,'studentdata'=>$studentdata));
+                $data=DB::table('exam_details')
+               ->join('subjects','exam_details.subid','=','subjects.id')
+               ->join('classcs','exam_details.classid','=','classcs.id')
+               ->join('exams','exam_details.exid','=','exams.id')
+               
+               ->select('exam_details.*','subjects.*')
+                  
+               ->get();
+           return view('vendor.adminlte.result.create',array('classdata'=>$classdata,'examdata'=>$examdata,'studentdata'=>$studentdata,'tdata'=>$data));
              }
         else{
             return redirect()->back();
@@ -126,4 +134,10 @@ class ResultController extends Controller
         }
     
     }
+    
+    
+    
+//    Ajax Check
+  
+    
 }
